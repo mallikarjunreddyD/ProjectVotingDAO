@@ -20,8 +20,10 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ProjectInterface extends utils.Interface {
   contractName: "Project";
   functions: {
-    "addProject(uint256,string,string)": FunctionFragment;
-    "addVotes(uint256,uint256)": FunctionFragment;
+    "addProject(string,string)": FunctionFragment;
+    "addVotes(uint256,uint8)": FunctionFragment;
+    "currentProjects()": FunctionFragment;
+    "maxNumProjects()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -29,11 +31,19 @@ export interface ProjectInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "addProject",
-    values: [BigNumberish, string, string]
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "addVotes",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentProjects",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "maxNumProjects",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -47,6 +57,14 @@ export interface ProjectInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "addProject", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addVotes", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "currentProjects",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "maxNumProjects",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -110,7 +128,6 @@ export interface Project extends BaseContract {
 
   functions: {
     addProject(
-      projectId: BigNumberish,
       problemStatement: string,
       studentName: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -118,9 +135,13 @@ export interface Project extends BaseContract {
 
     addVotes(
       projectId: BigNumberish,
-      votes: BigNumberish,
+      fb: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    currentProjects(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    maxNumProjects(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -135,7 +156,6 @@ export interface Project extends BaseContract {
   };
 
   addProject(
-    projectId: BigNumberish,
     problemStatement: string,
     studentName: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -143,9 +163,13 @@ export interface Project extends BaseContract {
 
   addVotes(
     projectId: BigNumberish,
-    votes: BigNumberish,
+    fb: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  currentProjects(overrides?: CallOverrides): Promise<BigNumber>;
+
+  maxNumProjects(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -160,7 +184,6 @@ export interface Project extends BaseContract {
 
   callStatic: {
     addProject(
-      projectId: BigNumberish,
       problemStatement: string,
       studentName: string,
       overrides?: CallOverrides
@@ -168,9 +191,13 @@ export interface Project extends BaseContract {
 
     addVotes(
       projectId: BigNumberish,
-      votes: BigNumberish,
+      fb: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    currentProjects(overrides?: CallOverrides): Promise<BigNumber>;
+
+    maxNumProjects(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -206,7 +233,6 @@ export interface Project extends BaseContract {
 
   estimateGas: {
     addProject(
-      projectId: BigNumberish,
       problemStatement: string,
       studentName: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -214,9 +240,13 @@ export interface Project extends BaseContract {
 
     addVotes(
       projectId: BigNumberish,
-      votes: BigNumberish,
+      fb: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    currentProjects(overrides?: CallOverrides): Promise<BigNumber>;
+
+    maxNumProjects(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -232,7 +262,6 @@ export interface Project extends BaseContract {
 
   populateTransaction: {
     addProject(
-      projectId: BigNumberish,
       problemStatement: string,
       studentName: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -240,9 +269,13 @@ export interface Project extends BaseContract {
 
     addVotes(
       projectId: BigNumberish,
-      votes: BigNumberish,
+      fb: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    currentProjects(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    maxNumProjects(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
