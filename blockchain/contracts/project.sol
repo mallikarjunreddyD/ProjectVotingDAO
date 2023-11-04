@@ -1,7 +1,7 @@
 pragma solidity ^0.8.11;
 
 //VSCode might show error for imports 
-//Change .vscode setting "solidity.packageDefaultDependenciesDirectory":"blockchain/node_modules"
+//Change vscode setting "solidity.packageDefaultDependenciesDirectory":"blockchain/node_modules"
 import "@openzeppelin/contracts/access/Ownable.sol"; 
 
 
