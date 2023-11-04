@@ -18,10 +18,10 @@ contract project is Ownable {
         uint projectId;
         string problemStatement;
         string studentName;
-        Feedback fb;
+        bool fb;
     }
 
-    mapping(uint=>projectDetails) data;
+    mapping(uint=>projectDetails) public data;
 
     event projectAdded(uint projectId, string problemStatement, string studentName);
 
@@ -39,8 +39,8 @@ contract project is Ownable {
         emit projectAdded(currentProjects, problemStatement, studentName);
     }
     // Only DAO can add feedback
-    function addVotes(uint projectId, Feedback fb) public onlyOwner {
-        data[projectId].fb = fb;
+    function addVotes(uint projectId) public onlyOwner {
+        data[projectId].fb = true;
     }
 
 }

@@ -21,8 +21,9 @@ export interface ProjectInterface extends utils.Interface {
   contractName: "Project";
   functions: {
     "addProject(string,string)": FunctionFragment;
-    "addVotes(uint256,uint8)": FunctionFragment;
+    "addVotes(uint256)": FunctionFragment;
     "currentProjects()": FunctionFragment;
+    "data(uint256)": FunctionFragment;
     "maxNumProjects()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -35,12 +36,13 @@ export interface ProjectInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "addVotes",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "currentProjects",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "data", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "maxNumProjects",
     values?: undefined
@@ -61,6 +63,7 @@ export interface ProjectInterface extends utils.Interface {
     functionFragment: "currentProjects",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "data", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "maxNumProjects",
     data: BytesLike
@@ -135,11 +138,22 @@ export interface Project extends BaseContract {
 
     addVotes(
       projectId: BigNumberish,
-      fb: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     currentProjects(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    data(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, string, string, boolean] & {
+        projectId: BigNumber;
+        problemStatement: string;
+        studentName: string;
+        fb: boolean;
+      }
+    >;
 
     maxNumProjects(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -163,11 +177,22 @@ export interface Project extends BaseContract {
 
   addVotes(
     projectId: BigNumberish,
-    fb: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   currentProjects(overrides?: CallOverrides): Promise<BigNumber>;
+
+  data(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, string, string, boolean] & {
+      projectId: BigNumber;
+      problemStatement: string;
+      studentName: string;
+      fb: boolean;
+    }
+  >;
 
   maxNumProjects(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -189,13 +214,21 @@ export interface Project extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    addVotes(
-      projectId: BigNumberish,
-      fb: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    addVotes(projectId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     currentProjects(overrides?: CallOverrides): Promise<BigNumber>;
+
+    data(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, string, string, boolean] & {
+        projectId: BigNumber;
+        problemStatement: string;
+        studentName: string;
+        fb: boolean;
+      }
+    >;
 
     maxNumProjects(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -240,11 +273,12 @@ export interface Project extends BaseContract {
 
     addVotes(
       projectId: BigNumberish,
-      fb: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     currentProjects(overrides?: CallOverrides): Promise<BigNumber>;
+
+    data(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     maxNumProjects(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -269,11 +303,15 @@ export interface Project extends BaseContract {
 
     addVotes(
       projectId: BigNumberish,
-      fb: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     currentProjects(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    data(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     maxNumProjects(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
